@@ -1,0 +1,4 @@
+sanchay23478@iiitd.ac.in,Sanchay Singh,123,1
+test@gmail.com,Foo,123,0
+test2@gmail.com,Bar,123,0
+oogaBooga@gmail.com,ooga booga,abcd,0

@@ -31,8 +31,12 @@ public class Order {
         orderDate = LocalDateTime.now();
 
         for(Map.Entry<Food, Integer> entry : cart.entrySet()) {
-            price += entry.getValue()*entry.getKey().getPrice();
+            if(entry.getKey()!=null)price += entry.getValue()*entry.getKey().getPrice();
         }
+    }
+
+    public void setDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public void saveInFile(){

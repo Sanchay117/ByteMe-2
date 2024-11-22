@@ -24,6 +24,18 @@ public class Customer {
         System.out.println("-------------------------------------------------------");
     }
 
+    public void save(){
+        String output = "";
+        output += email + "," + name + "," + password + "," + type + "\n";
+
+        try(FileWriter writer = new FileWriter("users.txt",true)){
+            writer.write(output);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
     public String getEmail() {
         return email;
     }
@@ -477,5 +489,9 @@ public class Customer {
                 System.out.println("Invalid Choice");
             }
         }
+    }
+
+    public void addOrder(Order o){
+        orders.add(o);
     }
 }

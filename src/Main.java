@@ -1,4 +1,8 @@
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +30,31 @@ public class Main {
         Customer c2 = new Customer("test@gmail.com","Foo","123",0);
         Customer c3 = new Customer("test2@gmail.com","Bar","123",0);
 
-        customers.add(c1);
-        customers.add(c2);
-        customers.add(c3);
+//        customers.add(c1);
+//        customers.add(c2);
+//        customers.add(c3);
+//
+//        c1.save();
+//        c2.save();
+//        c3.save();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader("users.txt")) ){
+            String line;
+
+            while((line = reader.readLine()) != null){
+                String[] tokens = line.split(",");
+
+                String email = tokens[0];
+                String name = tokens[1];
+                String password = tokens[2];
+                int privilege = Integer.valueOf(tokens[3]);
+
+                Customer c = new Customer(email, name, password, privilege);
+                customers.add(c);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 
         admins.add(a1);
         admins.add(a2);
@@ -49,17 +75,81 @@ public class Main {
             put(f3,3);
         }},"H1 hostel","COD","Preparing","sanchay23478@iiitd.ac.in");
 
-        orders.add(o1);
-        orders.add(o2);
-        orders.add(o3);
-
-        o1.saveInFile();
-        o2.saveInFile();
-        o3.saveInFile();
+//        orders.add(o1);
+//        orders.add(o2);
+//        orders.add(o3);
+//
+//        o1.saveInFile();
+//        o2.saveInFile();
+//        o3.saveInFile();
 
         menu.add(f1);
         menu.add(f2);
         menu.add(f3);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("orders.txt"))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                // Split the line by commas into an array
+                String[] tokens = line.split(",");
+
+                String orderedBy = "";
+                String address = "";
+                String paymentMethod = "";
+                String status = "";
+                boolean isSpecialReq = false;
+                String specialReq = "";
+                int price;
+                LocalDateTime orderDate = null;
+                HashMap<Food,Integer> cart = new HashMap<>();
+
+                int crnt = 0;
+                for(String token: tokens){
+
+                    if(crnt == 0) orderedBy = token;
+                    else if(crnt == 1) address = token;
+                    else if(crnt == 2) paymentMethod = token;
+                    else if(crnt == 3) status = token;
+                    else if(crnt == 4) isSpecialReq = Boolean.parseBoolean(token);
+                    else if(crnt == 5 && isSpecialReq) specialReq = token;
+                    else if(crnt == 6) price = Integer.parseInt(token);
+                    else if(crnt == 7) orderDate = LocalDateTime.parse(token);
+                    else if(crnt>8){
+                        String[] entry = token.split("-");
+                        Food food = null;
+                        for(Food f:menu){
+                            if(f.getID()==(Integer.parseInt(entry[0]))) food = f;
+                        }
+
+                        if(food!=null){
+                            cart.put(food,Integer.parseInt(entry[1]));
+                        }
+                    }
+
+                    crnt++;
+                }
+
+                Order o = new Order(cart,address,paymentMethod,status,orderedBy);
+                o.setDate(orderDate);
+                if(isSpecialReq){
+                    o.setSpecialReq(specialReq);
+                }
+
+                orders.add(o);
+
+                for(Customer c: customers){
+                    if(c.getEmail().equals(orderedBy)){
+                        c.addOrder(o);
+                    }
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 
@@ -145,6 +235,7 @@ public class Main {
                 Customer csr = new Customer(email, name, password,0);
 
                 customers.add(csr);
+                csr.save();
                 usr = csr;
 
                 System.out.println("User Successfully Logged in.");
