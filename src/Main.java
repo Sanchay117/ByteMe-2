@@ -21,6 +21,8 @@ public class Main {
     private static final ArrayList<Food> menu = new ArrayList<>();
     private static final ArrayList<Order> orders = new ArrayList<>();
 
+    public static final String invalidLogIN = "Incorrect Email or Password, please try again.";
+
     private static void prepopulate(){
         Admin a1 = new Admin(adminEmail, adminPassword);
         Admin a2 = new Admin("root@gmail.com", adminPassword);
@@ -140,6 +142,24 @@ public class Main {
         System.out.println("-------------------------------------------------------");
     }
 
+    public static String login(String email, String password){
+        for(Customer c: customers){
+            if(c.getEmail().equals(email) && c.getPassword().equals(password)){
+                usr = c;
+                return "Login Successful!";
+            }
+        }
+
+        for(Admin a: admins){
+            if(a.getEmail().equals(email) &&a.getPassword().equals(password)){
+                admin = a;
+                return "Login Successful!";
+            }
+        }
+
+        return invalidLogIN;
+    }
+
     private static void logIN(){
         Scanner scanner = new Scanner(System.in);
         while(true){
@@ -154,39 +174,19 @@ public class Main {
             if(choice == 1){
                 System.out.println("Please enter your email:");
                 String email = scanner.nextLine();
+                System.out.println("Please enter your password:");
+                String password = scanner.nextLine();
 
-                for(Customer c : customers){
-                    if(c.getEmail().equals(email)){
-                        System.out.println("Please enter your password:");
-                        String password = scanner.nextLine();
-                        if(password.equals(c.getPassword())){
-                            usr = c;
-                            found = true;
-                            break;
-                        }
-                    }
+                String result = login(email, password);
+
+                if(result.equals(invalidLogIN)){
+                    System.out.println(invalidLogIN);
+                }else{
+                    break;
                 }
 
-                if(found) break;
-
-                for(Admin a : admins){
-                    if(a.getEmail().equals(email)){
-                        System.out.println("Please enter your password:");
-                        String password = scanner.nextLine();
-                        if(password.equals(a.getPassword())){
-                            admin = a;
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-
-                if(found) break;
-
-                System.out.println("Incorrect Email or Password, please try again.");
-
-
-            }else if(choice == 2){
+            }
+            else if(choice == 2){
 
                 printDashes();
                 System.out.println("Please enter your email:");
@@ -301,6 +301,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        usr = null;
         prepopulate();
 
         printDashes();
