@@ -1,4 +1,6 @@
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -30,6 +32,38 @@ public class Order {
 
         for(Map.Entry<Food, Integer> entry : cart.entrySet()) {
             price += entry.getValue()*entry.getKey().getPrice();
+        }
+    }
+
+    public void saveInFile(){
+        String output = "";
+        output += orderedBy + ",";
+        output += deliveryDetail + "," + paymentDetail + "," + status + ",";
+        output += req + "," + specialReq + "," + price + "," + orderDate.toString() + ",";
+
+        String cartOut = "";
+        for(Map.Entry<Food, Integer> entry : cart.entrySet()) {
+            Food food = entry.getKey();
+            int quantity = entry.getValue();
+            cartOut += food.getID()+"-"+quantity+",";
+        }
+
+        output += "Cart" + "," + cartOut + "\n";
+
+        FileWriter out = null;
+        try{
+            out = new FileWriter("orders.txt",true);
+            out.write(output);
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            if(out != null){
+                try{
+                    out.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

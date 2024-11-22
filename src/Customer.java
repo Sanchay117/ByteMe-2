@@ -1,4 +1,6 @@
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Customer {
@@ -270,7 +272,7 @@ public class Customer {
                 String address = scanner.nextLine();
 
                 Map<Food,Integer> cartCopy = new HashMap<>(cart);
-                Order order = new Order(cartCopy,address,paymentMethod,"Order Received",name);
+                Order order = new Order(cartCopy,address,paymentMethod,"Order Received",email);
 
                 while (true){
                     System.out.println("Enter\n1.If You Have Any Special Requests\n2.If You don't");
@@ -289,6 +291,8 @@ public class Customer {
                         System.out.println("Please enter a valid choice");
                     }
                 }
+
+                order.saveInFile();
 
                 orders.add(order);
 

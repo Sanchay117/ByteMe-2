@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -33,8 +35,27 @@ public class Main {
         admins.add(a3);
 
         Food f1 = new Food("Pepsi",20,1,"drinks",true);
-        Food f2 = new Food("Coke",20,2,"drinks",true);
+        Food f2 = new Food("Coke",20,2,"drinks",false);
         Food f3 = new Food("Kurkure Paneer Momos",80,3,"snacks",true);
+
+        Order o1 = new Order(new HashMap<Food,Integer>(){{
+            put(f1,1);
+        }},"H2 hostel","COD","Preparing","sanchay23478@iiitd.ac.in");
+        Order o2 = new Order(new HashMap<Food,Integer>(){{
+            put(f3,1);
+        }},"Old Boys hostel","COD","Delivered","sanchay23478@iiitd.ac.in");
+        Order o3 = new Order(new HashMap<Food,Integer>(){{
+            put(f1,5);
+            put(f3,3);
+        }},"H1 hostel","COD","Preparing","sanchay23478@iiitd.ac.in");
+
+        orders.add(o1);
+        orders.add(o2);
+        orders.add(o3);
+
+        o1.saveInFile();
+        o2.saveInFile();
+        o3.saveInFile();
 
         menu.add(f1);
         menu.add(f2);
