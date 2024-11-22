@@ -26,17 +26,13 @@ public class Main {
         Admin a2 = new Admin("root@gmail.com", adminPassword);
         Admin a3 = new Admin("home@gmail.com", adminPassword);
 
+        admins.add(a1);
+        admins.add(a2);
+        admins.add(a3);
+
         Customer c1 = new Customer("sanchay23478@iiitd.ac.in","Sanchay Singh","123",1);
         Customer c2 = new Customer("test@gmail.com","Foo","123",0);
         Customer c3 = new Customer("test2@gmail.com","Bar","123",0);
-
-//        customers.add(c1);
-//        customers.add(c2);
-//        customers.add(c3);
-//
-//        c1.save();
-//        c2.save();
-//        c3.save();
 
         try(BufferedReader reader = new BufferedReader(new FileReader("users.txt")) ){
             String line;
@@ -52,17 +48,18 @@ public class Main {
                 Customer c = new Customer(email, name, password, privilege);
                 customers.add(c);
             }
-        }catch(IOException e){
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
-
-        admins.add(a1);
-        admins.add(a2);
-        admins.add(a3);
 
         Food f1 = new Food("Pepsi",20,1,"drinks",true);
         Food f2 = new Food("Coke",20,2,"drinks",false);
         Food f3 = new Food("Kurkure Paneer Momos",80,3,"snacks",true);
+
+        menu.add(f1);
+        menu.add(f2);
+        menu.add(f3);
 
         Order o1 = new Order(new HashMap<Food,Integer>(){{
             put(f1,1);
@@ -74,18 +71,6 @@ public class Main {
             put(f1,5);
             put(f3,3);
         }},"H1 hostel","COD","Preparing","sanchay23478@iiitd.ac.in");
-
-//        orders.add(o1);
-//        orders.add(o2);
-//        orders.add(o3);
-//
-//        o1.saveInFile();
-//        o2.saveInFile();
-//        o3.saveInFile();
-
-        menu.add(f1);
-        menu.add(f2);
-        menu.add(f3);
 
         try (BufferedReader reader = new BufferedReader(new FileReader("orders.txt"))) {
             String line;
@@ -148,8 +133,6 @@ public class Main {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
     }
 

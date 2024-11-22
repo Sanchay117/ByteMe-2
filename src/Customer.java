@@ -12,6 +12,7 @@ public class Customer {
     private final ArrayList<Order> orders = new ArrayList<>();
 
     private int type; // 1 for vip 0 for regular
+    public final String outOfStockItemOrder = "Error: An Item In Your Cart Is Unavailable";
 
     public Customer(String email, String name, String password,int type) {
         this.email = email;
@@ -171,7 +172,7 @@ public class Customer {
             if(choice2==1){
                 printDashes();
 
-                System.out.println("Select Food to add to cart By ID\n");
+                System.out.println("Select Available Food to add to cart By ID\n");
                 for(Food f : menu){
                     if(f.isAvailable()){
                         System.out.println(f.getID()+"."+ f);
@@ -304,12 +305,13 @@ public class Customer {
                     }
                 }
 
-                order.saveInFile();
-
-                orders.add(order);
-
-                cart.clear();
-
+                String result = checkOut(order);
+                if(result.equals(outOfStockItemOrder)){
+                    System.out.println(outOfStockItemOrder);
+                    continue;
+                }else{
+                    System.out.println(result);
+                }
                 return order;
             }
             else if (choice2 == 6) {
@@ -321,6 +323,20 @@ public class Customer {
         }
 
         return null;
+    }
+
+    public String checkOut(Order order){
+        for(Map.Entry<Food, Integer> entry : order.getCart().entrySet()){
+            if(!entry.getKey().isAvailable()){
+                return outOfStockItemOrder;
+            }
+        }
+
+        order.saveInFile();
+        orders.add(order);
+        cart.clear();
+
+        return "Order Sent";
     }
 
     public Order orders(ArrayList<Order> orders_real){
