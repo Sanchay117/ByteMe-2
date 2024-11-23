@@ -102,6 +102,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return dtf.format(orderDate) + " ₹" + price + " " + deliveryDetail + "[address] " + paymentDetail + "[payment] " +status + "[status] " + orderedBy + "[ordered by]";
+        return dtf.format(orderDate) + " ₹" + price + " [Price] " + deliveryDetail + "[address] " + paymentDetail + "[payment Method] " +status + "[status] " + orderedBy + "[ordered by]";
     }
 }

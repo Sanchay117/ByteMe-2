@@ -1,79 +1,104 @@
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class GUI extends Application {
-    private Stage primaryStage;
-    private Scene mainScene;
+public class GUI{
+    private static final Main main = new Main();
 
-    private final Main main = new Main();
-    private ArrayList<Food> menu = new ArrayList<>();
-    private ArrayList<Order> orders = new ArrayList<>();
+    private void showHomeScreen(){
+        JFrame frame = new JFrame();
 
-    @Override
-    public void start(Stage primaryStage) {
+        frame.setTitle("Byte Me!");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setSize(820,420);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JButton menuButton = new JButton("Menu");
+        menuButton.addActionListener(e -> showMenuScreen(frame));
+
+        JButton orderButton = new JButton("Orders");
+        orderButton.addActionListener(e -> showOrderScreen(frame));
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(menuButton, gbc);
+
+        gbc.gridy = 1;
+        panel.add(orderButton, gbc);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    private void showMenuScreen(JFrame frame_previous){
+        frame_previous.setVisible(false); // Hide the previous frame
+
+        JFrame frame = new JFrame("Menu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setSize(820, 420);
+
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BorderLayout());
+
+        JButton goBackButton = new JButton("Go Back");
+        goBackButton.addActionListener(e -> {
+            frame.setVisible(false);
+            showHomeScreen();
+        });
+
+        ArrayList<Food> menuList = main.menu;
+
+        JList<Food> menuJList = new JList<>(menuList.toArray(new Food[0]));
+        JScrollPane scrollPane = new JScrollPane(menuJList);
+
+        menuPanel.add(goBackButton, BorderLayout.NORTH);
+        menuPanel.add(scrollPane, BorderLayout.CENTER);
+
+        frame.add(menuPanel);
+        frame.setVisible(true);
+    }
+
+    private void showOrderScreen(JFrame frame_previous){
+        frame_previous.setVisible(false); // Hide the previous frame
+
+        JFrame frame = new JFrame("Orders");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setSize(820, 420);
+
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BorderLayout());
+
+        JButton goBackButton = new JButton("Go Back");
+        goBackButton.addActionListener(e -> {
+            frame.setVisible(false);
+            showHomeScreen();
+        });
+
+        ArrayList<Order> menuList = main.orders;
+
+        JList<Order> menuJList = new JList<>(menuList.toArray(new Order[0]));
+        JScrollPane scrollPane = new JScrollPane(menuJList);
+
+        menuPanel.add(goBackButton, BorderLayout.NORTH);
+        menuPanel.add(scrollPane, BorderLayout.CENTER);
+
+        frame.add(menuPanel);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args){
         main.prepopulate();
-        menu = main.menu;
-        orders = main.orders;
 
-        primaryStage.setTitle("Byte Me!");
-        primaryStage.setHeight(400);
-        primaryStage.setWidth(800);
-
-        Button menuButton = new Button("Menu");
-        Button orderButton = new Button("Order");
-
-        menuButton.setOnAction(new MenuEvent());
-
-//        ListView<Food> foodList = new ListView<>();
-//        foodList.getItems().addAll(main.menu);
-//
-//        // Handle item selection and display details
-//        foodList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                System.out.println("Selected: " + newValue.getName() + "\nPrice: $" + newValue.getPrice() + "\nAvailability: " + (newValue.isAvailable() ? "In Stock" : "Out of Stock"));
-//            }
-//        });
-
-        // Set up the layout and scene
-        VBox layout = new VBox(10);
-        layout.getChildren().add(menuButton);
-        layout.getChildren().add(orderButton);
-
-        Scene scene = new Scene(layout, 300, 250);
-        primaryStage.setTitle("Canteen Menu");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
+        SwingUtilities.invokeLater(() -> {
+            GUI gui = new GUI();
+            gui.showHomeScreen();
+        });
     }
-
-    class MenuEvent implements EventHandler<ActionEvent> {
-        @Override
-        public void handle(ActionEvent event) {
-            ListView<Food> foodList = new ListView<>();
-            foodList.getItems().addAll(menu);
-
-            Button backButton = new Button("Back");
-            backButton.setOnAction(e -> primaryStage.setScene(mainScene));
-
-            VBox menuLayout = new VBox(10);
-            menuLayout.getChildren().addAll(foodList, backButton);
-
-            Scene menuScene = new Scene(menuLayout, 400, 300);
-            primaryStage.setScene(menuScene);
-        }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
 }
