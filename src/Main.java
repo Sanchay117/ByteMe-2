@@ -18,12 +18,12 @@ public class Main {
 
     private static final ArrayList<Customer> customers = new ArrayList<>();
     private static final ArrayList<Admin> admins = new ArrayList<>();
-    private static final ArrayList<Food> menu = new ArrayList<>();
-    private static final ArrayList<Order> orders = new ArrayList<>();
+    public static final ArrayList<Food> menu = new ArrayList<>();
+    public static final ArrayList<Order> orders = new ArrayList<>();
 
     public static final String invalidLogIN = "Incorrect Email or Password, please try again.";
 
-    private static void prepopulate(){
+    public static void prepopulate(){
         Admin a1 = new Admin(adminEmail, adminPassword);
         Admin a2 = new Admin("root@gmail.com", adminPassword);
         Admin a3 = new Admin("home@gmail.com", adminPassword);
