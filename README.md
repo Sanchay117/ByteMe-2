@@ -1,7 +1,5 @@
 # Byte Me! Food Ordering System
 
-## Improves upon Previous system
-
 ## Overview
 "Byte Me!" is a command-line interface (CLI) application for managing food orders at the college canteen. It provides two main user roles:
 - **Admin**: Manages the menu, updates food items, generates reports, and views orders.
@@ -32,10 +30,27 @@ The Collections Framework in Java is utilized across various classes to store an
 - **ArrayList**: Used to store lists of food items, orders, and users. ArrayLists provide dynamic resizing and fast access for the application's needs.
 - **HashMap**: Used to map items in an order with their quantity.
 
+## Improvements Upon Previous Assignment
+
+### GUI
+A GUI can be launched separately from the CLI Main.java by launching GUI.java
+- It has 2 screens
+- One for showing food items on the Menu
+- And the other for showing all orders
+- Built Using Swing and AWT.
+- No Real Time Communication between CLI and GUI to refresh, GUI has to be relaunched
+
+### I/O Stream Management
+All orders are saved in orders.txt and users in users.txt which are then loaded in an ArrayList when Main.java is launched.
+
+### JUnit Testing
+Run TestRunner.java for running InvalidLogin And OutOfStockOrder Tests.
+
 ## Getting Started
 
 ### Prerequisites
 - **Java 8** or higher
+- **Junit4 Framework**
 
 ### Running the Application
 1. Compile the Java files:
