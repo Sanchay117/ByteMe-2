@@ -11,7 +11,7 @@ public class GUI{
         frame.setTitle("Byte Me!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setSize(820,420);
+        frame.setSize(1020,420);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -52,10 +52,23 @@ public class GUI{
             showHomeScreen();
         });
 
-        ArrayList<Food> menuList = main.menu;
+        String[] columns = {"ID","Name","Price","Availability"};
 
-        JList<Food> menuJList = new JList<>(menuList.toArray(new Food[0]));
-        JScrollPane scrollPane = new JScrollPane(menuJList);
+        ArrayList<Food> menuList = main.menu;
+        Object[][] menuData = new Object[menuList.size()][4];
+
+        for (int i = 0; i < menuList.size(); i++) {
+            Food food = menuList.get(i);
+            menuData[i][0] = food.getID();
+            menuData[i][1] = food.getName();
+            menuData[i][2] = "₹" + food.getPrice();
+            menuData[i][3] = food.isAvailable() ? "In Stock" : "Out of Stock";
+        }
+
+        JTable menuTable = new JTable(menuData, columns);
+        menuTable.setEnabled(false);
+
+        JScrollPane scrollPane = new JScrollPane(menuTable);
 
         menuPanel.add(goBackButton, BorderLayout.NORTH);
         menuPanel.add(scrollPane, BorderLayout.CENTER);
@@ -70,7 +83,7 @@ public class GUI{
         JFrame frame = new JFrame("Orders");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setSize(820, 420);
+        frame.setSize(1020, 420);
 
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BorderLayout());
@@ -83,8 +96,24 @@ public class GUI{
 
         ArrayList<Order> menuList = main.orders;
 
-        JList<Order> menuJList = new JList<>(menuList.toArray(new Order[0]));
-        JScrollPane scrollPane = new JScrollPane(menuJList);
+        String[] columns = {"Time","Price","Payment Method","Address","Status","Ordered By"};
+
+        Object[][] menuData = new Object[menuList.size()][6];
+
+        for (int i = 0; i < menuList.size(); i++) {
+            Order order = menuList.get(i);
+            menuData[i][0] = order.getOrderDate();
+            menuData[i][1] = "₹" + order.getPrice();
+            menuData[i][2] = order.getPaymentMethod();
+            menuData[i][3] = order.getAddress();
+            menuData[i][4] = order.getStatus();
+            menuData[i][5] = order.getOrderedBy();
+        }
+
+        JTable menuTable = new JTable(menuData, columns);
+        menuTable.setEnabled(false);
+
+        JScrollPane scrollPane = new JScrollPane(menuTable);
 
         menuPanel.add(goBackButton, BorderLayout.NORTH);
         menuPanel.add(scrollPane, BorderLayout.CENTER);

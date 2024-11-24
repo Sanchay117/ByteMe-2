@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+// time price address payment-method status orderedBy
+
 public class Order {
     private Map<Food, Integer> cart = new HashMap<>();
     private String deliveryDetail;
@@ -90,6 +92,22 @@ public class Order {
 
     public String getStatus(){
         return status;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public String getPaymentMethod(){
+        return paymentDetail;
+    }
+
+    public String getAddress() {
+        return deliveryDetail;
+    }
+
+    public String getOrderedBy(){
+        return orderedBy;
     }
 
     public void setStatus(String status){
