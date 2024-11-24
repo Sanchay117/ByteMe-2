@@ -53,7 +53,9 @@ Run TestRunner.java for running InvalidLogin And OutOfStockOrder Tests.
 - **Junit4 Framework**
 
 ### Running the Application
-1. Compile the Java files:
-   ```bash
-   javac Main.java
-   java Main
+1. Clone the Repo and open it inside IntelliJ
+2. Running The Command Line Interface [CLI]:
+   In IntelliJ run Main.java
+3. Running The Graphical User Interface [GUI]: In IntelliJ run GUI.java
+4. Running JUnit Tests : In IntelliJ run TestRunner.java
+5. **Note:** All these files are inside the src folder
